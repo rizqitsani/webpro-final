@@ -1,0 +1,36 @@
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	name varchar(255) NOT NULL,
+	email varchar(255) NOT NULL,
+	pass varchar(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS questions;
+CREATE TABLE questions(
+    id SERIAL PRIMARY KEY,
+    user_id integer,
+    title varchar(300),
+    description varchar(3000),
+    UNIQUE(user_id, id),
+	CONSTRAINT fk_user
+		FOREIGN KEY(user_id) 
+		REFERENCES users(id)
+);
+
+DROP TABLE IF EXISTS answers;
+CREATE TABLE answers (
+	id SERIAL PRIMARY KEY,
+	user_id integer,
+	question_id integer,
+	answer varchar(3000),
+    UNIQUE(user_id, id),
+	CONSTRAINT fk_user
+		FOREIGN KEY(user_id) 
+		REFERENCES users(id),
+    UNIQUE(question_id, id),
+	CONSTRAINT fk_question
+		FOREIGN KEY (question_id) 
+		REFERENCES questions(id)
+);
+
+
